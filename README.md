@@ -4,4 +4,6 @@
 
 不太会写, 随便先写点东西吧
 
+用了我自己写的 [PKU Login](https://github.com/sjfhsjfh/PKU-login-python), 可能需要装一下
+
 *Under Construction* ❄️
