@@ -77,12 +77,6 @@ class Schedule:
         self.type: int = type
         """0: 每周, 1: 单周, 2: 双周"""
 
-        @property
-        def is_today(self) -> bool:
-            """是否是今天"""
-
-            return self.weekday == time.localtime().tm_wday
-
     def __str__(self) -> str:
         return f"星期{'一二三四五六日'[self.weekday]} 第 {self.duration[0] + 1}-{self.duration[1] + 1} 节"
 
@@ -93,6 +87,12 @@ class Schedule:
     @property
     def end_time(self) -> Tuple[int, int]:
         return self.class_schedule[self.duration[1]][1]
+
+    @property
+    def is_today(self) -> bool:
+        """是否是今天"""
+
+        return self.weekday == time.localtime().tm_wday
 
     @staticmethod
     def from_str(s: str) -> Schedule | None:
