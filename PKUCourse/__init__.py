@@ -173,6 +173,9 @@ class PKUClass:
         """课程信息"""
 
         self.teachers: List[str] = teachers
+        teacher = kwargs.get("teacher")
+        if teacher is not None:
+            self.teachers.append(teacher)
         """教师"""
 
         self.location: str | None = location
@@ -190,8 +193,11 @@ class PKUClass:
         self.remarks: str = remarks
         """备注"""
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return f"PKUClass({self.name})"
+
+    def __str__(self) -> str:
+        return f"{self.name} - {','.join(self.teachers)}"
 
     @property
     def name(self) -> str | None:
