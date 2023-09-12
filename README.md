@@ -12,11 +12,14 @@
 
 ```bash
 pip install git+https://github.com/sjfhsjfh/PKU-course-schedule.git
+```
 
 ## TODO
 
 - [x] 基本功能
 - [ ] 个人痛点: [ICS 生成](https://github.com/junyilou/python-ical-timetable)
-> 似乎 [大佬](https://github.com/xmcp/) 已经做了 [网址](https://xmcp.ltd/syllabus/), 大哭
+
+> 似乎 [大佬](https://github.com/xmcp/) 已经做了, [网址在这](https://xmcp.ltd/syllabus/), 大哭
+
 - [ ] 个人痛点: 课程表图片导出(画大饼咯)
 - [ ] 刷课机 *Big brother is watching you 👁️👄👁️*
