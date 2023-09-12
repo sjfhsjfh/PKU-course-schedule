@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '0.1.0'
+version = '0.1.1'
 
 setup(
     name='PKUCourse',
@@ -10,7 +10,7 @@ setup(
     author_email='sjfhsjfh@qq.com',
     url='https://github.com/sjfhsjfh/PKU-course-schedule',
     install_requires=[
-        'git+https://github.com/sjfhsjfh/PKU-login-python.git',
+        'PKULogin@git+https://github.com/sjfhsjfh/PKU-login-python.git',
     ],
     packages=find_packages(),
     classifiers=[
