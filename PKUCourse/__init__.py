@@ -55,7 +55,7 @@ def translate(src: dict, from_lang: str) -> dict:
     return res
 
 
-class CourseType(enum.StrEnum):
+class CourseType(enum.Enum):
     """
     课程类别
     """
