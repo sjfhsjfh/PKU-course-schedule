@@ -5,7 +5,9 @@ import enum
 import logging
 import re
 
-from typing import Any, List, Literal, Tuple
+from typing import Any, List, Literal
+
+from .schedule import Schedule
 
 logger = logging.getLogger(__name__)
 
@@ -157,10 +159,10 @@ class PKUClass:
     def __init__(
         self,
         course: PKUCourse,
-        teachers: List[str] | None = None,
+        teachers: List[str] = [],
         location: str | None = None,
-        classes: List[Schedule] | None = None,
-        info: str | None = None,
+        classes: List[Schedule] = [],
+        info: str = "",
         result: str | None = None,
         remarks: str = "",
         *args: Any,
@@ -170,16 +172,16 @@ class PKUClass:
         self.course: PKUCourse = course
         """课程信息"""
 
-        self.teachers: List[str] | None = teachers
+        self.teachers: List[str] = teachers
         """教师"""
 
         self.location: str | None = location
         """上课地点"""
 
-        self.classes: List[Schedule] | None = classes
+        self.classes: List[Schedule] = classes[:]
         """上课时间"""
 
-        self.info: str | None = info
+        self.info: str = info
         """备注级别的好几项信息"""
 
         self.result: str | None = result
@@ -238,7 +240,7 @@ class PKUClass:
 
         return class_list
 
-    def parse_info(info: str) -> dict:
+    def parse_info(self) -> None:
         """
         最抽象的一集
 
@@ -246,18 +248,15 @@ class PKUClass:
         """
 
         # Multiline string
-        lines = info.splitlines()
-
-        res = {}
+        lines = self.info.splitlines()
 
         for line in lines:
 
             # # 上课时间:
-            # 1. 最基础的类型:
-            # Example:
-            # 1~16周 每周周五10~11节
 
-            res.update({})  # TODO
+            schedule = Schedule.from_str(line)
+            if schedule is not None:
+                self.classes.append(schedule)
 
             # # 上课地点:
             # 1. 常见类型:
@@ -272,35 +271,23 @@ class PKUClass:
                     "room": re_res.group("room")
                 }
                 loc_str = f"{location['building']} {location['room']}"
-                res.update({
-                    "location": loc_str
-                })
+                self.location = loc_str
 
             # # 考试相关信息:
             # 1. 套话:
             # Example:
             # 考试方式：堂考、论文、或统一时间考试
             if re.match(r"考试方式：堂考、论文、或统一时间考试$", line) is not None:
-                res.update({
-                    "exam_info": "堂考、论文、或统一时间考试"
-                })
+                self.exam_info = {
+                    "type": "堂考、论文、或统一时间考试"
+                }
 
             # 2. 有时间的:
             # Example:
             # 考试时间：20240105下午；
             re_res = re.match(r"考试时间：(?P<exam_time>[^;；]*)[;；]?$", line)
             if re_res is not None:
-                res.update({
-                    "exam_info": {
-                        "time": re_res.group("exam_time")
-                    }
-                })
+                self.exam_info = {
+                    "time": re_res.group("exam_time")
+                }
 
-        return res
-
-
-class Schedule:
-    def __init__(self: Schedule, cal: int, time: Tuple[Tuple[int, int], Tuple[int, int]]) -> None:
-        self.cal: int = cal
-        self.start_time: Tuple[int, int] = time[0]
-        self.stop_time: Tuple[int, int] = time[1]

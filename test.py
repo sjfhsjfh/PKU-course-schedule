@@ -46,7 +46,8 @@ class Test(unittest.TestCase):
 
         self.assertGreater(len(classes), 0)
 
-        for c in classes:
-            logger.info(c)
-            logger.info(c.info)
-            print(PKUClass.parse_info(info=c.info))
+        for pku_class in classes:
+            logger.info(pku_class.info)
+            pku_class.parse_info()
+            for schedule in pku_class.classes:
+                logger.info(schedule)
